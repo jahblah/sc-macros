@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ ${#} -ne 3 ];then
+  echo "usage: ${0} <range> <targetcell> <datafile>"
+  exit
+fi
+
+datafile="${3}"
+range=${1}
+targetcell=${2}
+echo -n '' >${datafile}
+echo "write \"${datafile}\" ${range}"
+
+ret=$(Rscript -e 'd<-scan("stdin",quiet=TRUE)' -e 'cat(median(d))'<${datafile})
+echo "let ${targetcell} = ${ret}"
+
